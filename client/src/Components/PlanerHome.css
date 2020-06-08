@@ -1,0 +1,63 @@
+body{
+    height: 98vh;
+    font-family: 'Raleway', sans-serif;
+    background-color:#f3f4f4;
+}
+
+h1 {
+    font-size: 40px;
+}
+  
+h2{
+    font-size: 30px;
+}
+  
+p{
+    font-size: 14px;
+}
+
+.planer-box{
+    display: grid;
+    height: 90vh;
+    width: 90%;
+    margin: auto;
+    grid-template-columns: 10% repeat(7, 1fr);
+    grid-template-rows: 10% 90%;
+    border: #777777 2px solid;
+    text-align: center;
+}
+
+.day-col{
+    display: grid;
+    grid-row: span 1;
+    grid-column: span 1;
+    border: #777777 1px solid;
+    padding: 10px;
+}
+.day-row{
+    display: grid;
+    grid-row: span 1;
+    grid-column: span 8;
+    grid-template-columns: 10% repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    border: #777777 1px solid;
+}
+.time-col{
+    display: grid;
+    grid-row: span 1;
+    grid-column: span 1;
+    position: relative;
+    border: #777777 1px solid;
+}
+.start-time{
+    text-align: center;
+    padding-top: 10px;
+    height: auto;
+}
+
+.end-time{
+    text-align: center;
+    position: relative;
+    top: 90%;
+    height: auto;
+}

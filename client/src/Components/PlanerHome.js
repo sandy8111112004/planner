@@ -3,6 +3,20 @@ import * as $ from 'axios';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import "./PlanerHome.css"
 
+const Task =(props)=>(
+    <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor}}>
+        <p className="center-box">
+        {props.taskContent}
+        </p>
+    </div>
+)
+
+const TimeSlot=(props)=>(
+    <div className="time-slot" style={{"top":props.timeTop}}>
+        {props.time}
+    </div>
+)
+
 const PlanerOutline = (props)=>(
     <div className="planer-box">
         <div className = "day-row">
@@ -32,11 +46,15 @@ const PlanerOutline = (props)=>(
             </div>
         </div>
         <div className ='time-col'>
-            <div className='start-time'>8:00</div>
-            <div className='end-time'>22:00</div>
+            <TimeSlot time={"8:00"} timeTop={"0%"}/>
+            <TimeSlot time={"17:00"} timeTop={"57.14%"}/>
+            <TimeSlot time={"19:00"} timeTop={"67.85%"}/>
+            <TimeSlot time={"22:00"} timeTop={"95%"}/>
         </div>
         <div className = 'day-col'>
-                stuff
+                <Task taskContent={"working!"} top={"0%"} length={"57.14%"} backGndColor={"#CEF1FB"}/>
+                <Task taskContent={"dinner!"} top={"57.14%"} length={"10.71%"} backGndColor={"#E5CEFB"}/>
+                <Task taskContent={"coding!"} top={"67.85%"} length={"32.15%"} backGndColor={"#FBE6CE"}/>
         </div>
         <div className = 'day-col'>
                 stuff

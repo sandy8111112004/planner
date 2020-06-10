@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const PlanerSchema = new Schema(
+const PlannerSchema = new Schema(
     {
         title:{
             type: String,
@@ -11,16 +11,16 @@ const PlanerSchema = new Schema(
         content:{
             type: String
         },
-        planerDay:{
+        plannerDay:{
             type: String,
             required: "Day is required"
         },
-        planerTime:{
+        plannerTime:{
             type:　String
         }
     }
 );
 
-let Planer = mongoose.model("Planer", PlanerSchema);
+let Planner = mongoose.model("Planner", PlannerSchema);
 
-MSFIDOCredentialAssertion.exports = Planer;
+module.exports = Planner;

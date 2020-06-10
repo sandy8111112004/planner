@@ -1,4 +1,3 @@
-/*
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
@@ -20,8 +19,8 @@ if (process.env.NODE_ENV === "production") {
 require('./routes/api-routes')(app);
 
 // Connect to the Mongo DB
-//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactSurveys");
-mongoose.connect(process.env.MONGODB_URI || `${process.env.mongodb}`);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactPlanner");
+//mongoose.connect(process.env.MONGODB_URI || `${process.env.mongodb}`);
 
 
 app.get("*", function(req, res) {
@@ -37,4 +36,4 @@ app.get("*", function(req, res) {
 // Start the API server
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-}); */
+}); 

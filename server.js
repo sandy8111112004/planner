@@ -9,7 +9,7 @@ const path = require('path');
 
 require('dotenv').config();
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 if (process.env.NODE_ENV === "production") {
@@ -21,7 +21,7 @@ require('./routes/api-routes')(app);
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactPlanner");
 //mongoose.connect(process.env.MONGODB_URI || `${process.env.mongodb}`);
-
+mongoose.set('useFindAndModify', false);
 
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));

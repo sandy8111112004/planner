@@ -4,11 +4,11 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import "./Popup.css"
 
 const Popup = (props) =>(
-    <div className="popup" id="popup">
+    <div className="popup" id={props.id}>
         <div className="popup__content">
-            Testing?
-            <a href="#planner-box" class="popup__close">&times;</a>
-            werwekjhsdlkfjshwoieuhfsdjhflekwhlkjsh
+            <h1 >{props.taskTitle}</h1>
+            <a href="#planner-box" className="popup__close">&times;</a>
+            <p>{props.taskContent}</p>
         </div>
     </div>
 )

@@ -12,7 +12,11 @@
 }
 
 .popup__content {
-    width: 75%;
+    font-size: 14px;
+    color: #777777;
+    line-height: 1.5;
+    width: 70%;
+    height: 80%;
     background-color: white;
     box-shadow: 0 2rem 4rem rgba(black, .2);
     border-radius: 3px;
@@ -27,11 +31,15 @@
 .popup:target {
     opacity: 1;
     visibility: visible;
+    top: 50%;
+    left: 50%;
 }
 
 .popup:target .popup__content {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    top: 50%;
+    left: 50%;
 }
 
 .popup__close:link, .popup_close:visited {
@@ -47,6 +55,6 @@
 }
 
 .popup__close:hover {
-    color: red;
+    color: #000000;
 }
     

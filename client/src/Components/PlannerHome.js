@@ -5,13 +5,16 @@ import "./PlannerHome.css";
 import Popup from './Popup.js';
 
 const Task =(props)=>(
-    <a href='#popup'>
-        <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor}}>
-            <p className="center-box">
-            {props.taskContent}
-            </p>
-        </div>
-    </a>
+    <div>
+        <a href={`#${props.id}`}>
+            <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor}}>
+                <p className="center-box">
+                {props.taskTitle}
+                </p>
+            </div>
+        </a>
+        <Popup taskTitle={props.taskTitle} taskContent={props.taskContent} id={props.id}/>
+    </div>
 )
 
 const TimeSlot=(props)=>(
@@ -55,9 +58,9 @@ const PlannerOutline = (props)=>(
             <TimeSlot time={"22:00"} timeTop={"95%"}/>
         </div>
         <div className = 'day-col'>
-                <Task taskContent={"working!"} top={"0%"} length={"57.14%"} backGndColor={"#CEF1FB"}/>
-                <Task taskContent={"dinner!"} top={"57.14%"} length={"10.71%"} backGndColor={"#E5CEFB"}/>
-                <Task taskContent={"coding!"} top={"67.85%"} length={"32.15%"} backGndColor={"#FBE6CE"}/>
+                <Task id={'123'} taskTitle={"working!"} taskContent={'Working Harrrrrd!'} top={"0%"} length={"57.14%"} backGndColor={"#CEF1FB"}/>
+                <Task id={'456'} taskTitle={"dinner!"} taskContent={'Have a Feast!'} top={"57.14%"} length={"10.71%"} backGndColor={"#E5CEFB"}/>
+                <Task id={'789'} taskTitle={"coding!"} taskContent={'Writing Projectsssss!'} top={"67.85%"} length={"32.15%"} backGndColor={"#FBE6CE"}/>
         </div>
         <div className = 'day-col'>
                 stuff
@@ -87,7 +90,6 @@ const PlannerHome = (props)=>(
         <Link to={'/planner'} style={{ textDecoration: 'none' }}>Planner   </Link>
         </nav>
         <PlannerOutline/>
-        <Popup />
     </div>
 )
 

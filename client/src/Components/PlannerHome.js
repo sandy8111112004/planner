@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import * as $ from 'axios';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import "./PlanerHome.css"
+import "./PlannerHome.css";
+import Popup from './Popup.js';
 
 const Task =(props)=>(
-    <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor}}>
-        <p className="center-box">
-        {props.taskContent}
-        </p>
-    </div>
+    <a href='#popup'>
+        <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor}}>
+            <p className="center-box">
+            {props.taskContent}
+            </p>
+        </div>
+    </a>
 )
 
 const TimeSlot=(props)=>(
@@ -17,8 +20,8 @@ const TimeSlot=(props)=>(
     </div>
 )
 
-const PlanerOutline = (props)=>(
-    <div className="planer-box">
+const PlannerOutline = (props)=>(
+    <div className="planner-box" id='planner-box'>
         <div className = "day-row">
             <div className = 'day-col'>
                 Time/Day
@@ -77,11 +80,15 @@ const PlanerOutline = (props)=>(
     </div>
 )
 
-const PlanerHome = (props)=>(
+const PlannerHome = (props)=>(
     <div>
-        This is Planerhome.
-        <PlanerOutline/>
+        <nav>
+        <Link to={'/'} style={{ textDecoration: 'none' }}>Home    </Link> |  
+        <Link to={'/planner'} style={{ textDecoration: 'none' }}>Planner   </Link>
+        </nav>
+        <PlannerOutline/>
+        <Popup />
     </div>
 )
 
-export default PlanerHome;
+export default PlannerHome;

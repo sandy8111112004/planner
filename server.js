@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 //all the server side runs on port 3001
 //all the client side runs on port 3000
-const path = require('path');
+const path = require('path');   //built-in module in Node.js, so it doesn't require to be installed
 
 require('dotenv').config();
 

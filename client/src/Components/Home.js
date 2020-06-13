@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 const Navigation = (props)=>(
     <span>
         <Link to={"/"}>Home</Link> |
-        <Link to={"/planer"}>Planer</Link>
+        <Link to={"/planner"}>Planner</Link>
     </span>
 )
 

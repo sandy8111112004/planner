@@ -5,11 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 //all the server side runs on port 3001
 //all the client side runs on port 3000
-const path = require('path');
+const path = require('path');   //built-in module in Node.js, so it doesn't require to be installed
 
 require('dotenv').config();
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 if (process.env.NODE_ENV === "production") {
@@ -19,9 +19,9 @@ if (process.env.NODE_ENV === "production") {
 require('./routes/api-routes')(app);
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactSurveys");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactPlanner");
 //mongoose.connect(process.env.MONGODB_URI || `${process.env.mongodb}`);
-
+mongoose.set('useFindAndModify', false);
 
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));

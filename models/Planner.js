@@ -3,21 +3,32 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PlannerSchema = new Schema(
-    {
-        title:{
-            type: String,
-            required: "You must have a title"
-        }, 
-        content:{
-            type: String
-        },
-        plannerDay:{
-            type: String,
-            required: "Day is required"
-        },
-        plannerTime:{
-            type:　String
-        }
+    {   
+        existTasks: [{
+            taskTitle:{
+                type: String,
+                required: "You must have a title"
+            }, 
+            taskContent:{
+                type: String
+            },
+            taskDay:{
+                type: String,
+                required: "Day is required"
+            },
+            startTime:{
+                type:　String,
+                required: "start time is required"
+            }, 
+            endTime:{
+                type: String,
+                required: "end time is requried"
+            },
+            taskBackGndColor:{
+                type: String,
+                default: '#777777'
+            }
+        }]
     }
 );
 

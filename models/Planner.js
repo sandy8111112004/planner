@@ -4,6 +4,14 @@ const Schema = mongoose.Schema;
 
 const PlannerSchema = new Schema(
     {   
+        plannerStart:{
+            type: String,
+            required: "need to specified the start time"
+        },
+        plannerEnd:{
+            type: String,
+            required: "need to specified the end time"
+        },
         existTasks: [{
             taskTitle:{
                 type: String,

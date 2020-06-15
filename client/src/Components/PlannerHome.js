@@ -60,7 +60,7 @@ const PlannerOutline = (props)=>(
         <div className = 'day-col' id='Mon'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Mon'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
                 {/* <Task id={'123'} taskTitle={"working!"} taskContent={'Working Harrrrrd!'} top={"0%"} length={"57.14%"} backGndColor={"#CEF1FB"}/>
@@ -70,42 +70,42 @@ const PlannerOutline = (props)=>(
         <div className = 'day-col' id='Tue'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Tue'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Wed'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Wed'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Thur'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Thur'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Fri'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Fri'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Sat'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Sat'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Sun'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Sun'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={"0%"} length={"57.14%"} key = {i} />:
+                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
@@ -169,6 +169,9 @@ class PlannerHome extends Component{
         taskContent:'',
         taskBackGndColor:'',
         existTasks:[],
+        plannerStart:'',
+        plannerEnd:'',
+        displayPattern:{},
         totalTimeList:['1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00',
                        '13:00', '14:00', '15:00', '16:00','17:00','18:00','19:00','20:00','21:00','22:00', '23:00','0:00']
     }
@@ -180,6 +183,11 @@ class PlannerHome extends Component{
         $.get(`/api/planner/${id}`)
         .then((result) => {
             let preTaskTime = [];
+            let top = '';
+            let length = '';
+            let totalLength = parseFloat(result.data.plannerEnd) - parseFloat(result.data.plannerStart);
+            let displayPattern = {};
+            let minUnit = 100/(totalLength);
             result.data.existTasks.map(e=>{
                 if (!preTaskTime.includes(e.startTime)){
                     preTaskTime.push(e.startTime);
@@ -187,8 +195,13 @@ class PlannerHome extends Component{
                 if (!preTaskTime.includes(e.endTime)){
                     preTaskTime.push(e.endTime);
                 }
+                top = String((parseFloat(e.startTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
+                length = String((parseFloat(e.endTime) - parseFloat(e.startTime))*minUnit).concat("%");
+                displayPattern[e._id]={top: top, length: length};
+                console.log(displayPattern);
             })
             
+
             this.setState({
                 taskDay:'Mon',
                 taskTime: preTaskTime,
@@ -197,10 +210,15 @@ class PlannerHome extends Component{
                 taskTitle:'',
                 taskContent:'',
                 taskBackGndColor:'',
+                plannerEnd: result.data.plannerEnd,
+                plannerStart: result.data.plannerStart,
+                displayPattern: displayPattern,
                 existTasks: result.data.existTasks
             })
         })
     }
+
+
 
     handleChange = (e) => {
         e.preventDefault();
@@ -219,16 +237,16 @@ class PlannerHome extends Component{
             if (!prev.includes(this.state.endTime)){
                 prev.push(this.state.endTime);
             }
-            this.setState({taskTime: prev});
+            this.setState({
+                taskTime: prev,
+                taskDay:'Mon',
+                startTime:'1:00',
+                endTime:'1:00',
+                taskTitle:'',
+                taskContent:'',
+                taskBackGndColor:''
+            });
         }
-        this.setState({
-        taskDay:'Mon',
-        startTime:'1:00',
-        endTime:'1:00',
-        taskTitle:'',
-        taskContent:'',
-        taskBackGndColor:'',
-        });
     }
 
     render(){
@@ -249,7 +267,7 @@ class PlannerHome extends Component{
                     taskContent = {this.state.taskContent}
                     taskBackGndColor = {this.state.taskBackGndColor}
                 />
-                <PlannerOutline existTasks = {this.state.existTasks}/>
+                <PlannerOutline existTasks = {this.state.existTasks} displayPattern={this.state.displayPattern}/>
             </div>
         )
     }

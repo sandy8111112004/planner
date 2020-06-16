@@ -52,10 +52,10 @@ const PlannerOutline = (props)=>(
             </div>
         </div>
         <div className ='time-col'>
-            <TimeSlot time={"8:00"} timeTop={"0%"}/>
-            <TimeSlot time={"17:00"} timeTop={"57.14%"}/>
-            <TimeSlot time={"19:00"} timeTop={"67.85%"}/>
-            <TimeSlot time={"22:00"} timeTop={"95%"}/>
+            {console.log(props.taskTime)}
+            {props.taskTime !== null? Object.keys(props.taskTime).map((e,i)=>
+                <TimeSlot time={e} timeTop={props.taskTime[e]} key = {i} />
+            ):null}
         </div>
         <div className = 'day-col' id='Mon'>
             {props.existTasks.map((e,i)=>
@@ -63,9 +63,6 @@ const PlannerOutline = (props)=>(
                 <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
-                {/* <Task id={'123'} taskTitle={"working!"} taskContent={'Working Harrrrrd!'} top={"0%"} length={"57.14%"} backGndColor={"#CEF1FB"}/>
-                <Task id={'456'} taskTitle={"dinner!"} taskContent={'Have a Feast!'} top={"57.14%"} length={"10.71%"} backGndColor={"#E5CEFB"}/>
-                <Task id={'789'} taskTitle={"coding!"} taskContent={'Writing Projectsssss!'} top={"67.85%"} length={"32.15%"} backGndColor={"#FBE6CE"}/> */}
         </div>
         <div className = 'day-col' id='Tue'>
             {props.existTasks.map((e,i)=>
@@ -117,8 +114,9 @@ const TimeOption = (props)=>(
 )
 
 const PlannerNew = (props)=>(
-    <div>
-        <h2>New Event</h2>
+    <div className="plannerNew-box">
+        <div>
+        <h3>New Event</h3>
         <div>
             <p>Day</p>
             <select name="taskDay" value={props.taskDay} onChange={props.changeHandler}>
@@ -156,13 +154,14 @@ const PlannerNew = (props)=>(
             <input name='taskBackGndColor' value={props.taskBackGndColor} onChange={props.changeHandler}></input>
         </div>
         <button name='plannerAddBtn' onClick={props.addHandler}>Add</button>
+        </div>
     </div>
 )
 
 class PlannerHome extends Component{
     state = {
         taskDay:'Mon',
-        taskTime:[],
+        taskTime:{},
         startTime:'1:00',
         endTime:'1:00',
         taskTitle:'',
@@ -178,28 +177,27 @@ class PlannerHome extends Component{
 
     componentDidMount(){
         const url=window.location.href;
-        const index = url.indexOf('planner/')
+        const index = url.indexOf('planner/');
         const id = url.substring(index+8); 
         $.get(`/api/planner/${id}`)
         .then((result) => {
-            let preTaskTime = [];
+            let preTaskTime = {};
             let top = '';
             let length = '';
             let totalLength = parseFloat(result.data.plannerEnd) - parseFloat(result.data.plannerStart);
             let displayPattern = {};
             let minUnit = 100/(totalLength);
+            let topEnd = '';
             result.data.existTasks.map(e=>{
-                if (!preTaskTime.includes(e.startTime)){
-                    preTaskTime.push(e.startTime);
-                }
-                if (!preTaskTime.includes(e.endTime)){
-                    preTaskTime.push(e.endTime);
-                }
                 top = String((parseFloat(e.startTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
+                preTaskTime[e.startTime] = top;
+                topEnd = String((parseFloat(e.endTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
+                preTaskTime[e.endTime] = topEnd;
                 length = String((parseFloat(e.endTime) - parseFloat(e.startTime))*minUnit).concat("%");
                 displayPattern[e._id]={top: top, length: length};
-                console.log(displayPattern);
-            })
+            });
+            preTaskTime[result.data.plannerEnd] = "97%";
+            preTaskTime[result.data.plannerStart] = "3%";
             
 
             this.setState({
@@ -214,7 +212,7 @@ class PlannerHome extends Component{
                 plannerStart: result.data.plannerStart,
                 displayPattern: displayPattern,
                 existTasks: result.data.existTasks
-            })
+            });
         })
     }
 
@@ -256,18 +254,21 @@ class PlannerHome extends Component{
                 <Link to={'/'} style={{ textDecoration: 'none' }}>Home    </Link> |  
                 <Link to={'/planner'} style={{ textDecoration: 'none' }}>Planner   </Link>
                 </nav>
-                <PlannerNew 
-                    totalTimeList={this.state.totalTimeList} 
-                    changeHandler={this.handleChange}
-                    addHandler={this.handleAdd}
-                    taskDay = {this.state.taskDay}
-                    startTime = {this.state.startTime}
-                    endTime = {this.state.endTime}
-                    taskTitle = {this.state.taskTitle}
-                    taskContent = {this.state.taskContent}
-                    taskBackGndColor = {this.state.taskBackGndColor}
-                />
-                <PlannerOutline existTasks = {this.state.existTasks} displayPattern={this.state.displayPattern}/>
+                <h2 className="center-text big-bottom">Week Testing!</h2>
+                <div className="planner-out-box">
+                    <PlannerNew 
+                        totalTimeList={this.state.totalTimeList} 
+                        changeHandler={this.handleChange}
+                        addHandler={this.handleAdd}
+                        taskDay = {this.state.taskDay}
+                        startTime = {this.state.startTime}
+                        endTime = {this.state.endTime}
+                        taskTitle = {this.state.taskTitle}
+                        taskContent = {this.state.taskContent}
+                        taskBackGndColor = {this.state.taskBackGndColor}
+                    />
+                    <PlannerOutline existTasks = {this.state.existTasks} displayPattern={this.state.displayPattern} taskTime={this.state.taskTime}/>
+                </div>
             </div>
         )
     }

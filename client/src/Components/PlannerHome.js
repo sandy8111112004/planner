@@ -6,7 +6,7 @@ import Popup from './Popup.js';
 
 const Task =(props)=>(
     <div>
-        <a href={`#${props.id}`}>
+        <a href={`#${props.id}`} style={{"textDecoration": "none", "color": "#777777"}}>
             <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor} }>
                 <p className="center-box">
                 {props.taskTitle}
@@ -170,6 +170,7 @@ class PlannerHome extends Component{
         existTasks:[],
         plannerStart:'',
         plannerEnd:'',
+        plannerId:'',
         displayPattern:{},
         totalTimeList:['1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00',
                        '13:00', '14:00', '15:00', '16:00','17:00','18:00','19:00','20:00','21:00','22:00', '23:00','0:00']
@@ -187,19 +188,17 @@ class PlannerHome extends Component{
             let totalLength = parseFloat(result.data.plannerEnd) - parseFloat(result.data.plannerStart);
             let displayPattern = {};
             let minUnit = 100/(totalLength);
-            let topEnd = '';
             result.data.existTasks.map(e=>{
                 top = String((parseFloat(e.startTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
                 preTaskTime[e.startTime] = top;
-                topEnd = String((parseFloat(e.endTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
-                preTaskTime[e.endTime] = topEnd;
                 length = String((parseFloat(e.endTime) - parseFloat(e.startTime))*minUnit).concat("%");
                 displayPattern[e._id]={top: top, length: length};
+                top = String((parseFloat(e.endTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
+                preTaskTime[e.endTime] = top;
             });
             preTaskTime[result.data.plannerEnd] = "97%";
             preTaskTime[result.data.plannerStart] = "3%";
             
-
             this.setState({
                 taskDay:'Mon',
                 taskTime: preTaskTime,
@@ -211,6 +210,7 @@ class PlannerHome extends Component{
                 plannerEnd: result.data.plannerEnd,
                 plannerStart: result.data.plannerStart,
                 displayPattern: displayPattern,
+                plannerId: id,
                 existTasks: result.data.existTasks
             });
         })
@@ -227,23 +227,37 @@ class PlannerHome extends Component{
         e.preventDefault();
         if(parseInt(this.state.startTime) >= parseInt(this.state.endTime)){
             return alert("Start time needs to be earlier than end time!");
+        }else if(parseInt(this.state.startTime) < this.state.plannerStart || parseInt(this.state.startTime) > this.state.plannerEnd){
+            return alert("Start time needs to be within planner's time range");
+        }else if(parseInt(this.state.endTime) < this.state.plannerStart || parseInt(this.state.endTime) > this.state.plannerEnd){
+            return alert("End time needs to be within planner's time range");
         }else{
             let prev = this.state.taskTime;
-            if (!prev.includes(this.state.startTime)){
-                prev.push(this.state.startTime);
+            let top ='';
+            let totalLength = parseFloat(this.state.plannerEnd) - parseFloat(this.state.plannerStart);
+            let minUnit = 100/(totalLength);
+            let prevTask = this.state.existTasks;
+
+            if(this.state.startTime !== this.state.plannerStart){
+                top = String((parseFloat(e.startTime)-parseFloat(this.state.plannerStart))*minUnit).concat("%");
+                prev[this.state.startTime] = top;
             }
-            if (!prev.includes(this.state.endTime)){
-                prev.push(this.state.endTime);
+            if(this.state.endTime !== this.state.plannerEnd){
+                top = String((parseFloat(e.endTime)-parseFloat(this.state.plannerStart))*minUnit).concat("%");
+                prev[this.state.endTime] = top;
             }
-            this.setState({
-                taskTime: prev,
-                taskDay:'Mon',
-                startTime:'1:00',
-                endTime:'1:00',
-                taskTitle:'',
-                taskContent:'',
-                taskBackGndColor:''
-            });
+            prevTask.push(
+                {taskBackGndColor:this.state.taskBackGndColor, 
+                    taskTitle: this.state.taskTitle, 
+                    taskContent: this.state.taskContent, 
+                    taskDay: this.state.taskDay,
+                    startTime: this.state.startTime, 
+                    endTime:this.state.endTime 
+                });
+            $.put(`/api/planner/${this.state.plannerId}`,{existTasks: prevTask})
+            .then((result)=>{window.location.reload(true)}
+            );
+            
         }
     }
 

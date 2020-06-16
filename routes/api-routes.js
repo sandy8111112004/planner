@@ -12,6 +12,16 @@ module.exports = function(app){
         })
     });
 
+    app.get("/api/planner/:id", function(req, res){
+        Planner.findOne({"_id": mongoose.Types.ObjectId(req.params.id)})
+        .then(function(data){
+            res.json(data);
+        })
+        .catch(function(err){
+            res.json(err);
+        })
+    });
+
     app.post("/api/planner", function(req,res){
         Planner.create(req.body)
         .then(function(data){
@@ -35,10 +45,7 @@ module.exports = function(app){
     app.put("/api/planner/:id", function(req,res){
         Planner.findOneAndUpdate({"_id": mongoose.Types.ObjectId(req.params.id) }, 
         { 
-            title: req.body.title,
-            content: req.body.content,
-            plannerDay: req.body.plannerDay,
-            plannerTime: req.body.plannerTime
+            existTasks: req.body.existTasks
         }, {returnOriginal: false})
         .then(function(data){
             res.json(data);

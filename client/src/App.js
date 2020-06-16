@@ -6,6 +6,11 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import PlannerHome from "./Components/PlannerHome";
 import Home from "./Components/Home";
 
+const Temp = (props)=>(
+  <div>
+    temp page
+  </div>
+)
 
 class App extends Component {
   state = {
@@ -15,7 +20,7 @@ class App extends Component {
   getAllPlanners = () =>{
     $.get(`/api/allPlanners`)
     .then((result) => {
-      this.setState({allPlanners: result});
+      this.setState({allPlanners: result.data});
     })
   }
 
@@ -26,22 +31,25 @@ class App extends Component {
     })
   }
 
-  handleDelete = (id) =>{
-    $.delete(`/api/allPlanners/${id}`)
-    .then((result)=>{
-      $.get(`/api/allPlanners`)
-      .then((result) => {
-        this.setState({allPlanners: result.data});
-      })
-    });
-  }
+  // handleDelete = (id) =>{
+  //   $.delete(`/api/allPlanners/${id}`)
+  //   .then((result)=>{
+  //     $.get(`/api/allPlanners`)
+  //     .then((result) => {
+  //       this.setState({allPlanners: result.data});
+  //     })
+  //   });
+  // }
 
   render=()=>{
     return( 
         <BrowserRouter>
         <div>
             <Route exact path={'/'} render={()=><Home />} />
-            <Route exact path={"/planner"} component={PlannerHome}/>
+            {this.state.allPlanners.map((e,i)=>
+              <Route exact path={`/planner/${e._id}`} component={PlannerHome} key={i}/>
+            )}
+            <Route exact path={'/planner'} component ={Temp} />
         </div>
         </BrowserRouter>
     );

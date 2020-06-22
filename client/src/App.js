@@ -5,12 +5,7 @@ import './App.css';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import PlannerHome from "./Components/PlannerHome";
 import Home from "./Components/Home";
-
-const Temp = (props)=>(
-  <div>
-    temp page
-  </div>
-)
+import AllPlanners from "./Components/AllPlanners"
 
 class App extends Component {
   state = {
@@ -49,7 +44,7 @@ class App extends Component {
             {this.state.allPlanners.map((e,i)=>
               <Route exact path={`/planner/${e._id}`} component={PlannerHome} key={i}/>
             )}
-            <Route exact path={'/planner'} component ={Temp} />
+            <Route exact path={'/planner'} component ={AllPlanners} />
         </div>
         </BrowserRouter>
     );

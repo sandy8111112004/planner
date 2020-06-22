@@ -6,14 +6,12 @@ import Popup from './Popup.js';
 
 const Task =(props)=>(
     <div>
-        <a href={`#${props.id}`} style={{"textDecoration": "none", "color": "#777777"}}>
-            <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor} }>
-                <p className="center-box">
+        <div className = "task-block" style={{"top": props.top, "height": props.length, "backgroundColor": props.backGndColor} }>
+            <a className='task-block-link center-box' href={`#${props.id}`} >
                 {props.taskTitle}
-                </p>
-            </div>
-        </a>
-        <Popup taskTitle={props.taskTitle} taskContent={props.taskContent} id={props.id}/>
+            </a>
+        </div>
+        <Popup taskTitle={props.taskTitle} taskContent={props.taskContent} id={props.id} taskDeleteHandler={props.taskDeleteHandler}/>
     </div>
 )
 
@@ -52,57 +50,56 @@ const PlannerOutline = (props)=>(
             </div>
         </div>
         <div className ='time-col'>
-            {console.log(props.taskTime)}
             {props.taskTime !== null? Object.keys(props.taskTime).map((e,i)=>
-                <TimeSlot time={e} timeTop={props.taskTime[e]} key = {i} />
+                <TimeSlot time={e} timeTop={props.taskTime[e][0]} key = {i} />
             ):null}
         </div>
         <div className = 'day-col' id='Mon'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Mon'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Tue'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Tue'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Wed'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Wed'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Thur'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Thur'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Fri'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Fri'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Sat'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Sat'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
         <div className = 'day-col' id='Sun'>
             {props.existTasks.map((e,i)=>
                 e.taskDay == 'Sun'?
-                <Task id = {e._id} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
+                <Task id = {e._id} taskDeleteHandler = {props.taskDeleteHandler} taskTitle = {e.taskTitle} taskContent = {e.taskContent} backGndColor = {e.taskBackGndColor} top={props.displayPattern[e._id].top} length={props.displayPattern[e._id].length} key = {i} />:
                 null
             )}
         </div>
@@ -176,32 +173,39 @@ class PlannerHome extends Component{
                        '13:00', '14:00', '15:00', '16:00','17:00','18:00','19:00','20:00','21:00','22:00', '23:00','0:00']
     }
 
+    drawPlanner(plannerEnd, plannerStart, existTasks){
+        let preTaskTime = {};
+        let top = '';
+        let length = '';
+        let totalLength = parseFloat(plannerEnd) - parseFloat(plannerStart);
+        let displayPattern = {};
+        let minUnit = 100/(totalLength);
+        preTaskTime[plannerEnd] = ["97%",1];
+        preTaskTime[plannerStart] = ["3%",1];
+        existTasks.map(e=>{
+            top = String((parseFloat(e.startTime)-parseFloat(plannerStart))*minUnit).concat("%");
+            Object.keys(preTaskTime).includes(e.startTime) ? preTaskTime[e.startTime][1] += 1:preTaskTime[e.startTime] = [top,1]; 
+            length = String((parseFloat(e.endTime) - parseFloat(e.startTime))*minUnit).concat("%");
+            displayPattern[e._id]={top: top, length: length};
+            top = String((parseFloat(e.endTime)-parseFloat(plannerStart))*minUnit).concat("%");
+            Object.keys(preTaskTime).includes(e.endTime) ? preTaskTime[e.endTime][1] += 1:preTaskTime[e.endTime] = [top,1]; 
+        });
+        
+        return {taskTime: preTaskTime, displayPattern: displayPattern}
+                
+    }
+
     componentDidMount(){
         const url=window.location.href;
         const index = url.indexOf('planner/');
         const id = url.substring(index+8); 
         $.get(`/api/planner/${id}`)
         .then((result) => {
-            let preTaskTime = {};
-            let top = '';
-            let length = '';
-            let totalLength = parseFloat(result.data.plannerEnd) - parseFloat(result.data.plannerStart);
-            let displayPattern = {};
-            let minUnit = 100/(totalLength);
-            result.data.existTasks.map(e=>{
-                top = String((parseFloat(e.startTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
-                preTaskTime[e.startTime] = top;
-                length = String((parseFloat(e.endTime) - parseFloat(e.startTime))*minUnit).concat("%");
-                displayPattern[e._id]={top: top, length: length};
-                top = String((parseFloat(e.endTime)-parseFloat(result.data.plannerStart))*minUnit).concat("%");
-                preTaskTime[e.endTime] = top;
-            });
-            preTaskTime[result.data.plannerEnd] = "97%";
-            preTaskTime[result.data.plannerStart] = "3%";
-            
+            let drawResult;
+            drawResult = this.drawPlanner(result.data.plannerEnd, result.data.plannerStart, result.data.existTasks);
             this.setState({
                 taskDay:'Mon',
-                taskTime: preTaskTime,
+                taskTime: drawResult.taskTime,
                 startTime:'1:00',
                 endTime:'1:00',
                 taskTitle:'',
@@ -209,14 +213,37 @@ class PlannerHome extends Component{
                 taskBackGndColor:'',
                 plannerEnd: result.data.plannerEnd,
                 plannerStart: result.data.plannerStart,
-                displayPattern: displayPattern,
+                displayPattern: drawResult.displayPattern,
                 plannerId: id,
                 existTasks: result.data.existTasks
             });
         })
     }
 
-
+    handleTaskDelete = (taskID) =>{
+        let prev = this.state.existTasks;
+        let prevTime = this.state.taskTime;
+        let indexToDel;
+        let findObj;
+        indexToDel = prev.findIndex(e=>e._id==taskID);
+        findObj = prev.find(e=>e._id==taskID);
+        prev.splice(indexToDel,1);
+        prevTime[findObj.startTime][1] -= 1;
+        if(prevTime[findObj.startTime[1]]===0){
+            delete prevTime[findObj.startTime];
+        }
+        prevTime[findObj.endTime][1] -= 1;
+        if(prevTime[findObj.endTime[1]]===0){
+            delete prevTime[findObj.endTime];
+        }
+        this.setState({
+            existTasks:prev,
+            taskTime: prevTime
+        });
+        $.put(`/api/planner/${this.state.plannerId}`,{existTasks: prev})
+        .then((result)=>{
+        });
+    }
 
     handleChange = (e) => {
         e.preventDefault();
@@ -227,35 +254,33 @@ class PlannerHome extends Component{
         e.preventDefault();
         if(parseInt(this.state.startTime) >= parseInt(this.state.endTime)){
             return alert("Start time needs to be earlier than end time!");
-        }else if(parseInt(this.state.startTime) < this.state.plannerStart || parseInt(this.state.startTime) > this.state.plannerEnd){
+        }else if(parseInt(this.state.startTime) < parseInt(this.state.plannerStart) || parseInt(this.state.startTime) > parseInt(this.state.plannerEnd)){
             return alert("Start time needs to be within planner's time range");
-        }else if(parseInt(this.state.endTime) < this.state.plannerStart || parseInt(this.state.endTime) > this.state.plannerEnd){
+        }else if(parseInt(this.state.endTime) < parseInt(this.state.plannerStart) || parseInt(this.state.endTime) > parseInt(this.state.plannerEnd)){
             return alert("End time needs to be within planner's time range");
         }else{
-            let prev = this.state.taskTime;
-            let top ='';
-            let totalLength = parseFloat(this.state.plannerEnd) - parseFloat(this.state.plannerStart);
-            let minUnit = 100/(totalLength);
-            let prevTask = this.state.existTasks;
-
-            if(this.state.startTime !== this.state.plannerStart){
-                top = String((parseFloat(e.startTime)-parseFloat(this.state.plannerStart))*minUnit).concat("%");
-                prev[this.state.startTime] = top;
-            }
-            if(this.state.endTime !== this.state.plannerEnd){
-                top = String((parseFloat(e.endTime)-parseFloat(this.state.plannerStart))*minUnit).concat("%");
-                prev[this.state.endTime] = top;
-            }
+            let prevTask = this.state.existTasks.slice();           
             prevTask.push(
-                {taskBackGndColor:this.state.taskBackGndColor, 
-                    taskTitle: this.state.taskTitle, 
-                    taskContent: this.state.taskContent, 
-                    taskDay: this.state.taskDay,
-                    startTime: this.state.startTime, 
-                    endTime:this.state.endTime 
-                });
+            {   taskBackGndColor:this.state.taskBackGndColor, 
+                taskTitle: this.state.taskTitle, 
+                taskContent: this.state.taskContent, 
+                taskDay: this.state.taskDay,
+                startTime: this.state.startTime, 
+                endTime:this.state.endTime
+            });
+            
             $.put(`/api/planner/${this.state.plannerId}`,{existTasks: prevTask})
-            .then((result)=>{window.location.reload(true)}
+            .then((result)=>{
+                let drawResult;
+                drawResult = this.drawPlanner(result.data.plannerEnd, result.data.plannerStart, result.data.existTasks);
+                this.setState({
+                    taskTime: drawResult.taskTime,
+                    plannerEnd: result.data.plannerEnd,
+                    plannerStart: result.data.plannerStart,
+                    displayPattern: drawResult.displayPattern,
+                    existTasks: result.data.existTasks
+                });
+            }
             );
             
         }
@@ -281,7 +306,12 @@ class PlannerHome extends Component{
                         taskContent = {this.state.taskContent}
                         taskBackGndColor = {this.state.taskBackGndColor}
                     />
-                    <PlannerOutline existTasks = {this.state.existTasks} displayPattern={this.state.displayPattern} taskTime={this.state.taskTime}/>
+                    <PlannerOutline 
+                    existTasks = {this.state.existTasks} 
+                    displayPattern={this.state.displayPattern} 
+                    taskTime={this.state.taskTime}
+                    taskDeleteHandler = {this.handleTaskDelete}
+                    />
                 </div>
             </div>
         )

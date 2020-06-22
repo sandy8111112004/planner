@@ -9,6 +9,7 @@ const Popup = (props) =>(
             <a href="#planner-box" className="popup__close">&times;</a>
             <h1>{props.taskTitle}</h1>
             <p>{props.taskContent}</p>
+            <button id='deleteTaskBtn' onClick={()=>props.taskDeleteHandler(props.id)}>Delete</button>
         </div>
     </div>
 )

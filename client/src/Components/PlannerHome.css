@@ -69,3 +69,12 @@ body{
     position: absolute;
     width: 100%;
 }
+
+.task-block-link{
+    color: #777777;
+    text-decoration: none;
+}
+
+.task-block-link:hover{
+    text-decoration: underline;
+}
